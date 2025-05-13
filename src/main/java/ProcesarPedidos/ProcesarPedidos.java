@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ProcesarPedidos;
+import Nuevo_Pedido.Menu_Nuevo_Pedido;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Queue;
+import java.util.Stack;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,12 +16,111 @@ package ProcesarPedidos;
  */
 public class ProcesarPedidos extends javax.swing.JFrame {
 
+private Queue<Menu_Nuevo_Pedido.Pedido> colaPedidos;//////cola
+
+private Stack<PedidoEntregado> pedidosEntregados = new Stack<>();////
+
+
     /**
      * Creates new form ProcesarPedidos
      */
-    public ProcesarPedidos() {
+    public ProcesarPedidos(Queue<Menu_Nuevo_Pedido.Pedido> colaPedidos) {
         initComponents();
+        this.setVisible(true);
+        this.colaPedidos = colaPedidos; 
+        cargarpedidos();
+       
     }
+    
+         
+    /////////////////////////////////////////////////////////////////////////////recorrido de la cola para mostrarla en mi list y mostrar el primer ID en el jlabel
+private void cargarpedidos() {
+    if (colaPedidos == null || colaPedidos.isEmpty()) {
+        JTA_listado.setText("No hay pedidos en la cola.");
+        J_id.setText(""); // Limpia el JLabel si no hay pedidos
+        return;
+    }
+
+    // Mostrar el listado de pedidos
+    StringBuilder listado = new StringBuilder();
+    for (Menu_Nuevo_Pedido.Pedido pedido : colaPedidos) {
+        listado.append(pedido.toString())
+               .append("\n-----------------------------\n");
+    }
+    JTA_listado.setText(listado.toString());
+
+    // Mostrar solo el ID del primer pedido en el JLabel
+    Menu_Nuevo_Pedido.Pedido primerPedido = colaPedidos.peek();
+    if (primerPedido != null) {
+        J_id.setText(String.valueOf(primerPedido.getId()));
+    } else {
+        J_id.setText(""); // Por si acaso peek() devuelve null
+    }
+}
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////se captura la fecha y hora en que se esta entregando el pedido
+
+
+public class PedidoEntregado {
+    public Menu_Nuevo_Pedido.Pedido pedido;
+    public String fechaHoraEntrega;
+
+    public PedidoEntregado(Menu_Nuevo_Pedido.Pedido pedido, String fechaHoraEntrega) {
+        this.pedido = pedido;
+        this.fechaHoraEntrega = fechaHoraEntrega;
+    }
+
+    @Override
+    public String toString() {
+        return pedido.toString() + "\nEntregado: " + fechaHoraEntrega;
+    }
+}
+
+   //////////////////////////////////////////////////////////////////////////////////////////////////// finaliza el pedido, guarda en pilas los pedidos completados   
+
+
+private void entregado() {
+    if (colaPedidos.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No hay pedidos pendientes.");
+        J_id.setText(""); // Limpiar el JLabel
+        return;
+    }
+
+    // Obtener el primer pedido de la cola sin eliminarlo aún
+    Menu_Nuevo_Pedido.Pedido pedido = colaPedidos.peek();
+
+    if (pedido != null) {
+        // Eliminar el pedido de la cola
+        colaPedidos.poll();
+
+        // Registrar la fecha y hora de entrega
+        String fechaHoraEntrega = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+
+        // Crear objeto entregado y agregarlo a la pila
+        PedidoEntregado entregado = new PedidoEntregado(pedido, fechaHoraEntrega);
+        pedidosEntregados.push(entregado);
+
+        // Mostrar mensaje de confirmación
+        JOptionPane.showMessageDialog(this, "Pedido entregado:\n" + entregado.toString());
+
+        // Actualizar el listado (aquí deberías llamar a tu método que refresca la tabla o lista)
+        cargarpedidos();
+
+        // Mostrar el siguiente ID en el JLabel (si hay más pedidos)
+        if (!colaPedidos.isEmpty()) {
+            Menu_Nuevo_Pedido.Pedido siguiente = colaPedidos.peek();
+            J_id.setText(String.valueOf(siguiente.id));
+        } else {
+            J_id.setText(""); // No hay más pedidos
+        }
+    }
+}
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,20 +136,13 @@ public class ProcesarPedidos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         JTA_listado = new javax.swing.JTextArea();
         J_listado = new javax.swing.JLabel();
-        J_idpedido = new javax.swing.JLabel();
-        J_idpedido1 = new javax.swing.JLabel();
-        J_fechahora = new javax.swing.JLabel();
-        J_fechahora1 = new javax.swing.JLabel();
-        J_nombrecliente = new javax.swing.JLabel();
-        J_nombrecliente1 = new javax.swing.JLabel();
-        J_tipocafe = new javax.swing.JLabel();
-        J_tipocafe1 = new javax.swing.JLabel();
-        J_pasteltipo = new javax.swing.JLabel();
-        J_pasteltipo1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        B_entregado = new javax.swing.JButton();
+        B_salir = new javax.swing.JButton();
+        J_id = new javax.swing.JLabel();
+        J_numeropedido = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(600, 100));
 
         J_nombre.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         J_nombre.setText("Cafeteria Elizabeth");
@@ -53,133 +151,105 @@ public class ProcesarPedidos extends javax.swing.JFrame {
         J_status.setText("STATUS DE PEDIDOS");
 
         JTA_listado.setColumns(20);
+        JTA_listado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         JTA_listado.setRows(5);
         jScrollPane1.setViewportView(JTA_listado);
 
+        J_listado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         J_listado.setText("Listado de Pedidos Pendientes");
 
-        J_idpedido.setText("Id Pedido");
-
-        J_idpedido1.setText("ID");
-
-        J_fechahora.setText("Fecha y Hora");
-
-        J_fechahora1.setText("F/H");
-
-        J_nombrecliente.setText("Nombre de Cliente");
-
-        J_nombrecliente1.setText("Nombre");
-
-        J_tipocafe.setText("Cafe Tipo");
-
-        J_tipocafe1.setText("tipo");
-
-        J_pasteltipo.setText("Pastel Tipo");
-
-        J_pasteltipo1.setText("tipo");
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        B_entregado.setText("ENTREGADO");
+        B_entregado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        B_entregado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                B_entregadoMouseClicked(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList1);
+
+        B_salir.setText("SALIR");
+        B_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                B_salirMouseClicked(evt);
+            }
+        });
+
+        J_id.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        J_id.setText("ID");
+
+        J_numeropedido.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        J_numeropedido.setText("PEDIDO #");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(J_listado, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(595, 595, 595))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(326, Short.MAX_VALUE)
+                        .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(J_status, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 26, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(J_listado, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(144, 144, 144)
-                                        .addComponent(J_idpedido, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(292, 292, 292)
-                                        .addComponent(J_status, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(1, 1, 1)
-                                .addComponent(J_fechahora, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(82, 82, 82)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(J_idpedido1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(J_fechahora1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(J_nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(J_tipocafe, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(J_nombrecliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(J_tipocafe1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(218, 218, 218)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(J_pasteltipo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(J_pasteltipo1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(112, 112, 112)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(J_id, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(J_numeropedido, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(9, Short.MAX_VALUE))
+                        .addGap(130, 130, 130)
+                        .addComponent(B_entregado, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(B_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(J_status, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J_status, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(J_listado, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                        .addComponent(J_listado, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(J_idpedido1)
-                                    .addComponent(J_fechahora1))
-                                .addGap(62, 62, 62)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(J_nombrecliente)
-                                    .addComponent(J_tipocafe)
-                                    .addComponent(J_pasteltipo))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(J_nombrecliente1)
-                                    .addComponent(J_tipocafe1)
-                                    .addComponent(J_pasteltipo1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60))))
+                        .addComponent(jScrollPane1)
+                        .addGap(69, 69, 69))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(J_idpedido)
-                            .addComponent(J_fechahora))
-                        .addContainerGap())))
+                        .addGap(97, 97, 97)
+                        .addComponent(J_numeropedido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(J_id, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84)
+                        .addComponent(B_entregado, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                        .addComponent(B_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void B_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_salirMouseClicked
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_B_salirMouseClicked
+
+    private void B_entregadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_entregadoMouseClicked
+        // TODO add your handling code here:
+       entregado();
+    }//GEN-LAST:event_B_entregadoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -187,22 +257,14 @@ public class ProcesarPedidos extends javax.swing.JFrame {
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton B_entregado;
+    private javax.swing.JButton B_salir;
     private javax.swing.JTextArea JTA_listado;
-    private javax.swing.JLabel J_fechahora;
-    private javax.swing.JLabel J_fechahora1;
-    private javax.swing.JLabel J_idpedido;
-    private javax.swing.JLabel J_idpedido1;
+    private javax.swing.JLabel J_id;
     private javax.swing.JLabel J_listado;
     private javax.swing.JLabel J_nombre;
-    private javax.swing.JLabel J_nombrecliente;
-    private javax.swing.JLabel J_nombrecliente1;
-    private javax.swing.JLabel J_pasteltipo;
-    private javax.swing.JLabel J_pasteltipo1;
+    private javax.swing.JLabel J_numeropedido;
     private javax.swing.JLabel J_status;
-    private javax.swing.JLabel J_tipocafe;
-    private javax.swing.JLabel J_tipocafe1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

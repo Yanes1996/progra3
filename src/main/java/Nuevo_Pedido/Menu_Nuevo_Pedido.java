@@ -41,7 +41,7 @@ public class Menu_Nuevo_Pedido extends javax.swing.JFrame {
 
     }
 
-private Queue<Pedido> colaPedidos = new LinkedList<>();
+public static Queue<Pedido> colaPedidos = new LinkedList<>();
 private DefaultListModel<String> modeloLista = new DefaultListModel<>();
 
 
@@ -192,8 +192,8 @@ private void limpiarpantallaCompleto() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////LOGICA PARA CAPTURA DATOS y GUARDARLO EN COLA
 
-   public class Pedido {
-    private int id;
+public class Pedido {
+    public int id;
     private String fechaHora;
     private String nombreCliente;
     private String productos; // Todos los productos en un solo String
@@ -205,6 +205,10 @@ private void limpiarpantallaCompleto() {
         this.nombreCliente = nombreCliente;
         this.productos = productos;
         this.total = total;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -417,7 +421,9 @@ private void Finalizarpedido() {
                     .addComponent(J_id, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(213, 213, 213)
                 .addComponent(J_menu, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(j_nuevopedido, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -472,36 +478,20 @@ private void Finalizarpedido() {
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 905, Short.MAX_VALUE)
-                                .addComponent(J_fechahora, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txt_nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(J_fechahora1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(J_fechahora1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(J_nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(j_nuevopedido, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(467, 467, 467))))
+                        .addComponent(J_fechahora, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(169, 169, 169))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(J_menu, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(j_nuevopedido)
-                        .addGap(10, 10, 10)
-                        .addComponent(J_fechahora)
-                        .addGap(18, 18, 18)
-                        .addComponent(J_fechahora1)
-                        .addGap(46, 46, 46))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(J_idpedido)
@@ -511,7 +501,20 @@ private void Finalizarpedido() {
                         .addComponent(J_nombrecliente)
                         .addGap(18, 18, 18)
                         .addComponent(txt_nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(J_menu, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(j_nuevopedido)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addComponent(J_fechahora)
+                        .addGap(18, 18, 18)
+                        .addComponent(J_fechahora1)
+                        .addGap(46, 46, 46)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(J_tipodecafe, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -544,7 +547,6 @@ private void Finalizarpedido() {
                                     .addComponent(B_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(B_finalizarpedido, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(B_eliminaritem, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(17, 17, 17))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -558,15 +560,6 @@ private void Finalizarpedido() {
         // TODO add your handling code here:
     
     }//GEN-LAST:event_CB_listadodecafesActionPerformed
-
-    private void B_totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_totalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_B_totalActionPerformed
-
-    private void B_totalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_totalMouseClicked
-        // TODO add your handling code here:
-        calcularTotalDesdeLista();
-    }//GEN-LAST:event_B_totalMouseClicked
 
     private void J_limpiarpantallaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_J_limpiarpantallaMouseClicked
         // TODO add your handling code here:
@@ -602,6 +595,15 @@ private void Finalizarpedido() {
         // TODO add your handling code here:
         eliminarItemSeleccionado();
     }//GEN-LAST:event_B_eliminaritemMouseClicked
+
+    private void B_totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_totalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_B_totalActionPerformed
+
+    private void B_totalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_totalMouseClicked
+        // TODO add your handling code here:
+        calcularTotalDesdeLista();
+    }//GEN-LAST:event_B_totalMouseClicked
 
     /**
      * @param args the command line arguments

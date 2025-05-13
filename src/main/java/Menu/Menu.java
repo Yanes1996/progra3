@@ -4,6 +4,8 @@
  */
 package Menu;
 import Nuevo_Pedido.Menu_Nuevo_Pedido;
+import ProcesarPedidos.ProcesarPedidos;
+
 
 /**
  *
@@ -69,6 +71,11 @@ public class Menu extends javax.swing.JFrame {
 
         M_opcion2.setText("Procesar Pedidos");
         M_opcion2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        M_opcion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                M_opcion2ActionPerformed(evt);
+            }
+        });
         M_siguientepedido.add(M_opcion2);
 
         M_pedidospendientes.setText("Pedidos Pendientes");
@@ -121,6 +128,11 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         Menu_Nuevo_Pedido menupedido = new Menu_Nuevo_Pedido();
     }//GEN-LAST:event_M_nuevopedidoActionPerformed
+
+    private void M_opcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_M_opcion2ActionPerformed
+        // TODO add your handling code here:
+        ProcesarPedidos pedidos = new ProcesarPedidos(Menu_Nuevo_Pedido.colaPedidos);
+    }//GEN-LAST:event_M_opcion2ActionPerformed
 
     /**
      * @param args the command line arguments

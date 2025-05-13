@@ -35,6 +35,8 @@
               <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
               <Component id="J_menu" min="-2" pref="401" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="j_nuevopedido" min="-2" pref="136" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
@@ -107,25 +109,16 @@
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace pref="905" max="32767" attributes="0"/>
-                              <Component id="J_fechahora" min="-2" pref="95" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="txt_nombrecliente" min="-2" pref="252" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="J_fechahora1" min="-2" pref="178" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="txt_nombrecliente" min="-2" pref="252" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="J_fechahora1" min="-2" pref="178" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="J_nombrecliente" min="-2" pref="193" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="j_nuevopedido" min="-2" pref="136" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="467" max="-2" attributes="0"/>
+                      <Component id="J_fechahora" min="-2" pref="95" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -136,17 +129,6 @@
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="J_menu" min="-2" pref="93" max="-2" attributes="0"/>
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
-                      <Component id="j_nuevopedido" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="J_fechahora" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="J_fechahora1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="J_idpedido" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -156,6 +138,23 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="txt_nombrecliente" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="J_menu" min="-2" pref="93" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <Component id="j_nuevopedido" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="42" max="32767" attributes="0"/>
+                      <Component id="J_fechahora" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="J_fechahora1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -196,7 +195,6 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="B_eliminaritem" min="-2" pref="41" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           </Group>
