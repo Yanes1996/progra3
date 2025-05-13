@@ -70,27 +70,14 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="M_pedidospendientes">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pedidos Pendientes"/>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Hand Cursor"/>
-                </Property>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="M_historiadepedidoscompletados">
-              <Properties>
                 <Property name="text" type="java.lang.String" value="Historial de Pedidos Completados"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="M_busquedadepedido">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar Pedido"/>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Hand Cursor"/>
-                </Property>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="M_pedidospendientesActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="M_reportefinanciero">
               <Properties>

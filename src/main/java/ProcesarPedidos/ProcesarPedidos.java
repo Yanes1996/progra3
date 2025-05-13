@@ -17,8 +17,7 @@ import javax.swing.JOptionPane;
 public class ProcesarPedidos extends javax.swing.JFrame {
 
 private Queue<Menu_Nuevo_Pedido.Pedido> colaPedidos;//////cola
-
-private Stack<PedidoEntregado> pedidosEntregados = new Stack<>();////
+public static Stack<PedidoEntregado> pedidosEntregados = new Stack<>();////pila
 
 
     /**
@@ -69,6 +68,11 @@ public class PedidoEntregado {
     public PedidoEntregado(Menu_Nuevo_Pedido.Pedido pedido, String fechaHoraEntrega) {
         this.pedido = pedido;
         this.fechaHoraEntrega = fechaHoraEntrega;
+    }
+
+    public LocalDateTime getFechaHoraEntregaComoLocalDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return LocalDateTime.parse(fechaHoraEntrega, formatter);
     }
 
     @Override
@@ -146,6 +150,7 @@ private void entregado() {
 
         J_nombre.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         J_nombre.setText("Cafeteria Elizabeth");
+        J_nombre.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
         J_status.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         J_status.setText("STATUS DE PEDIDOS");
@@ -184,13 +189,12 @@ private void entregado() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
                         .addComponent(J_listado, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(595, 595, 595))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(326, Short.MAX_VALUE)
                         .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69)
                         .addComponent(J_status, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))

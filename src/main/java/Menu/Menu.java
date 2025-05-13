@@ -5,7 +5,7 @@
 package Menu;
 import Nuevo_Pedido.Menu_Nuevo_Pedido;
 import ProcesarPedidos.ProcesarPedidos;
-
+import HistorialPedidosCompletados.HistorialPedidosCompletados;
 
 /**
  *
@@ -19,6 +19,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
          this.setVisible(true);
+        
     }
 
     /**
@@ -38,8 +39,6 @@ public class Menu extends javax.swing.JFrame {
         M_nuevopedido = new javax.swing.JMenuItem();
         M_opcion2 = new javax.swing.JMenuItem();
         M_pedidospendientes = new javax.swing.JMenuItem();
-        M_historiadepedidoscompletados = new javax.swing.JMenuItem();
-        M_busquedadepedido = new javax.swing.JMenuItem();
         M_reportefinanciero = new javax.swing.JMenuItem();
         M_guardarhistorial = new javax.swing.JMenuItem();
         M_cargarpedido = new javax.swing.JMenuItem();
@@ -78,17 +77,14 @@ public class Menu extends javax.swing.JFrame {
         });
         M_siguientepedido.add(M_opcion2);
 
-        M_pedidospendientes.setText("Pedidos Pendientes");
+        M_pedidospendientes.setText("Historial de Pedidos Completados");
         M_pedidospendientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        M_pedidospendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                M_pedidospendientesActionPerformed(evt);
+            }
+        });
         M_siguientepedido.add(M_pedidospendientes);
-
-        M_historiadepedidoscompletados.setText("Historial de Pedidos Completados");
-        M_historiadepedidoscompletados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        M_siguientepedido.add(M_historiadepedidoscompletados);
-
-        M_busquedadepedido.setText("Buscar Pedido");
-        M_busquedadepedido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        M_siguientepedido.add(M_busquedadepedido);
 
         M_reportefinanciero.setText("Reporte Financiero");
         M_reportefinanciero.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -134,16 +130,19 @@ public class Menu extends javax.swing.JFrame {
         ProcesarPedidos pedidos = new ProcesarPedidos(Menu_Nuevo_Pedido.colaPedidos);
     }//GEN-LAST:event_M_opcion2ActionPerformed
 
+    private void M_pedidospendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_M_pedidospendientesActionPerformed
+        // TODO add your handling code here:
+        HistorialPedidosCompletados historial = new HistorialPedidosCompletados(ProcesarPedidos.pedidosEntregados);
+    }//GEN-LAST:event_M_pedidospendientesActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem M_busquedadepedido;
     private javax.swing.JMenuItem M_cargarpedido;
     private javax.swing.JMenuItem M_guardarhistorial;
-    private javax.swing.JMenuItem M_historiadepedidoscompletados;
     private javax.swing.JMenuItem M_nuevopedido;
     private javax.swing.JMenuItem M_opcion2;
     private javax.swing.JMenuItem M_pedidospendientes;

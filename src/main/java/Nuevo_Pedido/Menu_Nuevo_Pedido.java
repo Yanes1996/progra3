@@ -302,6 +302,7 @@ private void Finalizarpedido() {
 
         J_menu.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         J_menu.setText("Cafeteria Elizabeth");
+        J_menu.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
         J_tipodecafe.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         J_tipodecafe.setText("LISTADO DE CAFE'S");
