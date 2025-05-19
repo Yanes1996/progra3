@@ -79,7 +79,7 @@ public class PedidoEntregado {
     public String toString() {
         return pedido.toString() + "\nEntregado: " + fechaHoraEntrega;
     }
-}
+    }
 
    //////////////////////////////////////////////////////////////////////////////////////////////////// finaliza el pedido, guarda en pilas los pedidos completados   
 
