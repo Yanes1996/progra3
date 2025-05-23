@@ -6,6 +6,7 @@ package Menu;
 import Nuevo_Pedido.Menu_Nuevo_Pedido;
 import ProcesarPedidos.ProcesarPedidos;
 import HistorialPedidosCompletados.HistorialPedidosCompletados;
+import ReporteFinanciero.ReporteFinanciero;
 
 /**
  *
@@ -88,6 +89,16 @@ public class Menu extends javax.swing.JFrame {
 
         M_reportefinanciero.setText("Reporte Financiero");
         M_reportefinanciero.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        M_reportefinanciero.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                M_reportefinancieroMouseClicked(evt);
+            }
+        });
+        M_reportefinanciero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                M_reportefinancieroActionPerformed(evt);
+            }
+        });
         M_siguientepedido.add(M_reportefinanciero);
 
         M_guardarhistorial.setText("Guardar Pedido en Archivo");
@@ -134,6 +145,15 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         HistorialPedidosCompletados historial = new HistorialPedidosCompletados(ProcesarPedidos.pedidosEntregados);
     }//GEN-LAST:event_M_pedidospendientesActionPerformed
+
+    private void M_reportefinancieroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_M_reportefinancieroMouseClicked
+
+    }//GEN-LAST:event_M_reportefinancieroMouseClicked
+
+    private void M_reportefinancieroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_M_reportefinancieroActionPerformed
+        // TODO add your handling code here:
+        ReporteFinanciero reportefinanciero = new ReporteFinanciero(ProcesarPedidos.pedidosEntregados);
+    }//GEN-LAST:event_M_reportefinancieroActionPerformed
 
     /**
      * @param args the command line arguments

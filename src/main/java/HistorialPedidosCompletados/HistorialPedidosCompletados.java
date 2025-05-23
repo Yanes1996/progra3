@@ -5,6 +5,7 @@
 package HistorialPedidosCompletados;
 
 import ProcesarPedidos.ProcesarPedidos.PedidoEntregado;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,8 +30,7 @@ private Stack<PedidoEntregado> pedidosEntregados;
     
     
     //////////////////////////////////////////////////////////////////////////////////////////agrega el listado al jlist
-    
-   private void cargarHistorialPedidos(Stack<PedidoEntregado> pedidosEntregados) {
+    private void cargarHistorialPedidos(Stack<PedidoEntregado> pedidosEntregados) {
     // Convertir la pila a una lista temporal
     List<PedidoEntregado> listaTemporal = new ArrayList<>(pedidosEntregados);
 
@@ -39,8 +39,22 @@ private Stack<PedidoEntregado> pedidosEntregados;
 
     // Crear el modelo para el JList
     DefaultListModel<String> modelo = new DefaultListModel<>();
+    double totalMonto = 0.0;
+
     for (PedidoEntregado pedido : listaTemporal) {
         modelo.addElement(pedido.toString());
+
+        // Acceder al campo 'total' desde la clase padre Pedido
+        try {
+            Field field = pedido.getClass().getSuperclass().getDeclaredField("total");
+            field.setAccessible(true);
+            Object valor = field.get(pedido);
+            if (valor instanceof Number) {
+                totalMonto += ((Number) valor).doubleValue();
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     // Asignar el modelo al JList

@@ -4,9 +4,10 @@
  */
 package ReporteFinanciero;
 
+import Nuevo_Pedido.Menu_Nuevo_Pedido;
 import ProcesarPedidos.ProcesarPedidos.PedidoEntregado;
 import java.util.Stack;
-
+import javax.swing.DefaultListModel;
 
 
 /**
@@ -18,18 +19,28 @@ private Stack<PedidoEntregado> pedidosEntregados;
     /**
      * Creates new form ReporteFinanciero
      */
-    public ReporteFinanciero(Stack<PedidoEntregado> pedidosEntregados) {
-        initComponents();
-        this.setVisible(true);
-        
+  public ReporteFinanciero(Stack<PedidoEntregado> pedidosEntregados) {
+    initComponents();
+    this.setVisible(true);
+    this.pedidosEntregados = pedidosEntregados;
+   
+    DefaultListModel<String> modelo = new DefaultListModel<>();
+    double totalGeneral = 0;
+
+    for (int i = pedidosEntregados.size() - 1; i >= 0; i--) {
+        PedidoEntregado entregado = pedidosEntregados.get(i);
+        Menu_Nuevo_Pedido.Pedido pedido = entregado.pedido;
+        double total = pedido.total;
+        totalGeneral += total;
+        modelo.addElement("Pedido #" + pedido.getId());
+        modelo.addElement("Total: Q" + String.format("%.2f", total));
+        modelo.addElement("Entregado: " + entregado.fechaHoraEntrega);
+        modelo.addElement("-----------------------------");
     }
-    
 
-
-    
-    
-    
-    
+    modelo.addElement("TOTAL GENERAL: Q" + String.format("%.2f", totalGeneral));
+    JLIST_listado.setModel(modelo);
+}
     
     
 
@@ -50,6 +61,7 @@ private Stack<PedidoEntregado> pedidosEntregados;
         B_salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(600, 100));
 
         J_nombre.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         J_nombre.setText("Cafeteria Elizabeth");
@@ -62,51 +74,67 @@ private Stack<PedidoEntregado> pedidosEntregados;
         J_reporte.setText("Reporte");
 
         B_salir.setText("Salir");
+        B_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                B_salirMouseClicked(evt);
+            }
+        });
+        B_salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_salirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(B_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(J_reportefinanciero, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(293, 293, 293)
-                        .addComponent(J_reporte)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(J_reportefinanciero, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(B_salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40))
+                        .addGap(261, 261, 261)
+                        .addComponent(J_reporte))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(J_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
+                .addGap(11, 11, 11)
                 .addComponent(J_reportefinanciero)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(J_nombre)
-                        .addGap(31, 31, 31)
-                        .addComponent(J_reporte)
-                        .addGap(478, 478, 478)
-                        .addComponent(B_salir)
-                        .addContainerGap(41, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56))))
+                .addGap(24, 24, 24)
+                .addComponent(J_nombre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(J_reporte)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(B_salir)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void B_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_salirMouseClicked
+        // TODO add your handling code here:
+        dispose ();
+    }//GEN-LAST:event_B_salirMouseClicked
+
+    private void B_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_B_salirActionPerformed
 
     /**
      * @param args the command line arguments

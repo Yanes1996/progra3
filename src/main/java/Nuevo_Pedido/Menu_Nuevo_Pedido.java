@@ -197,7 +197,7 @@ public class Pedido {
     private String fechaHora;
     private String nombreCliente;
     private String productos; // Todos los productos en un solo String
-    private double total;
+    public double total;
 
     public Pedido(int id, String fechaHora, String nombreCliente, String productos, double total) {
         this.id = id;
