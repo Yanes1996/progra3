@@ -113,6 +113,11 @@ public class Menu extends javax.swing.JFrame {
 
         M_salir.setText("SALIR");
         M_salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        M_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                M_salirMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(M_salir);
 
         setJMenuBar(jMenuBar1);
@@ -154,6 +159,11 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         ReporteFinanciero reportefinanciero = new ReporteFinanciero(ProcesarPedidos.pedidosEntregados);
     }//GEN-LAST:event_M_reportefinancieroActionPerformed
+
+    private void M_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_M_salirMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_M_salirMouseClicked
 
     /**
      * @param args the command line arguments
