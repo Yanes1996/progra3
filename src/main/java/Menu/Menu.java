@@ -41,8 +41,6 @@ public class Menu extends javax.swing.JFrame {
         M_opcion2 = new javax.swing.JMenuItem();
         M_pedidospendientes = new javax.swing.JMenuItem();
         M_reportefinanciero = new javax.swing.JMenuItem();
-        M_guardarhistorial = new javax.swing.JMenuItem();
-        M_cargarpedido = new javax.swing.JMenuItem();
         M_salir = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
@@ -100,14 +98,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         M_siguientepedido.add(M_reportefinanciero);
-
-        M_guardarhistorial.setText("Guardar Pedido en Archivo");
-        M_guardarhistorial.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        M_siguientepedido.add(M_guardarhistorial);
-
-        M_cargarpedido.setText("Cargar Pedido por Archivo");
-        M_cargarpedido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        M_siguientepedido.add(M_cargarpedido);
 
         jMenuBar1.add(M_siguientepedido);
 
@@ -171,8 +161,6 @@ public class Menu extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem M_cargarpedido;
-    private javax.swing.JMenuItem M_guardarhistorial;
     private javax.swing.JMenuItem M_nuevopedido;
     private javax.swing.JMenuItem M_opcion2;
     private javax.swing.JMenuItem M_pedidospendientes;
