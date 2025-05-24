@@ -136,7 +136,7 @@ private void Fecha_Hora() {
 
     // Recorremos todos los elementos del JList
     for (int i = 0; i < modeloLista.getSize(); i++) {
-        String item = modeloLista.getElementAt(i); // Ej: "2 x Café Americano - Q15"
+        String item = modeloLista.getElementAt(i); 
         total += extraerSubtotal(item);
     }
 
@@ -167,11 +167,21 @@ private void eliminarItemSeleccionado() {
     int indiceSeleccionado = list_nombre.getSelectedIndex(); // Obtener el índice seleccionado
 
     if (indiceSeleccionado != -1) { // -1 significa que no hay selección
-        modeloLista.remove(indiceSeleccionado); // Eliminar del modelo
+        int confirmacion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Desea eliminar el producto seleccionado?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            modeloLista.remove(indiceSeleccionado); // Eliminar del modelo
+        }
     } else {
         JOptionPane.showMessageDialog(null, "Por favor selecciona un producto para eliminar.");
     }
 }
+
 
      /////////////////////////////////////////////////////////////////////////////////////////////////////////limpiar pantalla 
     
@@ -226,6 +236,17 @@ private void Finalizarpedido() {
     if (nombreCliente.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, ingrese el nombre del cliente antes de finalizar el pedido.", "Campo requerido", JOptionPane.WARNING_MESSAGE);
         return;
+    }
+
+    int confirmacion = JOptionPane.showConfirmDialog(
+        this,
+        "¿Desea finalizar el pedido?",
+        "Confirmar finalización",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirmacion != JOptionPane.YES_OPTION) {
+        return; // Si el usuario elige "No", se cancela la operación
     }
 
     Fecha_Hora(); // Actualiza fechaHoraPedido y el campo visual

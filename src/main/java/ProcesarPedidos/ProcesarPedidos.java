@@ -39,7 +39,7 @@ public static Stack<PedidoEntregado> pedidosEntregados = new Stack<>();////pila
     /////////////////////////////////////////////////////////////////////////////recorrido de la cola para mostrarla en mi list y mostrar el primer ID en el jlabel
 private void cargarpedidos() {
     if (colaPedidos == null || colaPedidos.isEmpty()) {
-        JTA_listado.setText("No hay pedidos en la cola.");
+        JTA_listado.setText("No hay pedidos pendientes.");
         J_id.setText(""); // Limpia el JLabel si no hay pedidos
         return;
     }
@@ -99,6 +99,17 @@ private void entregado() {
     Menu_Nuevo_Pedido.Pedido pedido = colaPedidos.peek();
 
     if (pedido != null) {
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Desea confirmar la entrega?",
+            "Confirmar entrega",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // Cancelar si el usuario elige "No"
+        }
+
         // Eliminar el pedido de la cola
         colaPedidos.poll();
 
@@ -113,7 +124,7 @@ private void entregado() {
         // Mostrar mensaje de confirmación
         JOptionPane.showMessageDialog(this, "Pedido entregado:\n" + entregado.toString());
 
-        // Actualizar el listado (aquí deberías llamar a tu método que refresca la tabla o lista)
+        // Actualizar el listado
         cargarpedidos();
 
         // Mostrar el siguiente ID en el JLabel (si hay más pedidos)
@@ -125,6 +136,8 @@ private void entregado() {
         }
     }
 }
+
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
