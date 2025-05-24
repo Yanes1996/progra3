@@ -229,7 +229,6 @@ public class Pedido {
 
     
  //////////////////////////////////////////////////////////////////////////////////////////////////////   
-
 private void Finalizarpedido() {
     String nombreCliente = txt_nombrecliente.getText().trim();
 
@@ -246,7 +245,7 @@ private void Finalizarpedido() {
     );
 
     if (confirmacion != JOptionPane.YES_OPTION) {
-        return; // Si el usuario elige "No", se cancela la operación
+        return;
     }
 
     Fecha_Hora(); // Actualiza fechaHoraPedido y el campo visual
@@ -265,7 +264,21 @@ private void Finalizarpedido() {
     String productos = productosBuilder.toString().trim();
 
     Pedido nuevoPedido = new Pedido(id, fechaHoraPedido, nombreCliente, productos, total);
-    colaPedidos.add(nuevoPedido);
+
+    // Preguntar si el pedido es urgente
+    int urgente = JOptionPane.showConfirmDialog(
+        this,
+        "¿Desea agregar este pedido como urgente?",
+        "Pedido urgente",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (urgente == JOptionPane.YES_OPTION) {
+        // Asegúrate de que colaPedidos sea una LinkedList para usar addFirst
+        ((LinkedList<Pedido>) colaPedidos).addFirst(nuevoPedido);
+    } else {
+        colaPedidos.add(nuevoPedido);
+    }
 
     JOptionPane.showMessageDialog(this, "Pedido agregado a la cola:\n" +
         "Fecha y hora: " + fechaHoraPedido + "\n" +
@@ -274,6 +287,7 @@ private void Finalizarpedido() {
     limpiarpantallaCompleto();
     generarYMostrarCodigoPedido();
 }
+
 
 
 
